@@ -11,35 +11,13 @@ let regexPatterns = [
     /^https:\/\/cms\.g5marketingcloud\.com\/clients\/.*\/websites\/.*\/pages\/.*$/
 ];
 
-// Define functions to run for each page
-function onClientHubPage() {
-    console.log("You are on the client hub page.");
-    // Your code for the client hub page here
-}
-
-function onLocationHubPage() {
-    console.log("You are on the location hub page.");
-    // Your code for the location hub page here
-}
-
-function onClientProvisionerPage() {
-    console.log("You are on the client provisioner page.");
-    // Your code for the client provisioner page here
-}
-
-function onLocationProvisionerPage() {
-    console.log("You are on the location provisioner page.");
-    // Your code for the location provisioner page here
-}
-
-function onClientCmsPage() {
-    console.log("You are on the client CMS page.");
-    // Your code for the client CMS page here
-}
-
-function onLocationCmsPage() {
-    console.log("You are on the location CMS page.");
-    // Your code for the location CMS page here
+function loadRemoteJS(rawFileUrl) {
+    fetch(rawFileUrl)
+        .then(response => response.text())
+        .then(code => {
+            eval(code);
+        })
+        .catch(error => console.error('Error fetching code:', error));
 }
 
 // Iterate through the patterns and execute corresponding functions
@@ -47,24 +25,29 @@ for (let i = 0; i < regexPatterns.length; i++) {
     if (regexPatterns[i].test(currentUrl)) {
         switch (i) {
             case 0:
-                onClientHubPage();
+                console.log('You are on the G5 Hub client page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/hub/hub_client_page.js');
                 break;
             case 1:
-                onLocationHubPage();
+                console.log('You are on the G5 Hub location page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/hub/hub_location_page.js');
                 break;
             case 2:
-                onClientProvisionerPage();
+                console.log('You are on the G5 Provisioner client page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/provisioner/provisioner_client_page.js');
                 break;
             case 3:
-                onLocationProvisionerPage();
-                break;
+                console.log('You are on the G5 Provisioner location page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/provisioner/provisioner_site_page.js');
             case 4:
-                onClientCmsPage();
+                console.log('You are on the G5 CMS client page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/cms/cms_general.js');
                 break;
             case 5:
-                onLocationCmsPage();
+                console.log('You are on the G5 CMS location page.');
+                loadRemoteJS('https://raw.githubusercontent.com/lake-straly/g5-bugfixes-and-improvements/main/js/cms/cms_page.js');
                 break;
         }
-        break; // Exit the loop after executing the corresponding function
+        break;
     }
 }
